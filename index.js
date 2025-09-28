@@ -5,7 +5,7 @@ const app = express();
 const dns = require('dns');
 
 // Basic Configuration
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 
@@ -24,7 +24,8 @@ app.listen(port, function() {
   console.log(`Listening on port ${port}`);
 });
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 let urlDB = {};
 let idCounter = 1;
@@ -39,7 +40,7 @@ app.post('/api/shorturl', function(req, res) {
   }
 
 
-  dns.lookup(new URL(url).host, (err) => {
+  dns.lookup(new URL(url).hostname, (err) => {
     if (err) {
       return res.json({ error: "invalid url" });
     }
